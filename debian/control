@@ -33,6 +33,7 @@ Homepage: https://www.proxmox.com
 Package: proxmox-firewall
 Architecture: any
 Conflicts: ulogd,
+Pre-Depends: ${misc:Pre-Depends},
 Depends: netbase, nftables, pve-firewall, ${misc:Depends}, ${shlibs:Depends},
 Description: Proxmox's nftables-based firewall written in rust
  This package contains a nftables-based implementation of the Proxmox VE
