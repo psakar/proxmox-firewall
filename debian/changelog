@@ -1,3 +1,11 @@
+proxmox-firewall (1.2.4+devuan1) trixie; urgency=medium
+
+  * build for systemd-free derivatives like Devuan (sysvinit or OpenRC),
+    with the init-system changes of the feature/init-systems-refactoring
+    branch; built with the pkg.proxmox-firewall.lsbservice profile
+
+ -- Petr Sakař <petr.sakar@chare.eu>  Tue, 10 Nov 2026 20:34:49 +0100
+
 proxmox-firewall (1.2.4) trixie; urgency=medium
 
   * fix #7584: update to proxmox-ve-config 0.11, which recognizes all
