@@ -17,6 +17,15 @@ export CARGO_HOME = $(CURDIR)/debian/cargo_home
 export DEB_CARGO_CRATE=proxmox-firewall_$(DEB_VERSION_UPSTREAM)
 export DEB_CARGO_PACKAGE=proxmox-firewall
 
+# The pkg.proxmox-firewall.lsbservice build profile is for Devuan and other
+# systemd-free Debian derivatives (see pve-common's and pve-manager's
+# pkg.*.lsbservice profiles): it installs an LSB init script mirroring
+# proxmox-firewall.service instead of it. To build this variant, run:
+#   dpkg-buildpackage -b -us -uc -Ppkg.proxmox-firewall.lsbservice
+ifneq (,$(filter pkg.proxmox-firewall.lsbservice,$(DEB_BUILD_PROFILES)))
+LSBSERVICE = 1
+endif
+
 %:
 	dh $@
 
@@ -26,6 +35,18 @@ override_dh_auto_configure:
 	$(CARGO) prepare-debian $(CURDIR)/debian/cargo_registry --link-from-system
 	dh_auto_configure
 
+ifdef LSBSERVICE
+execute_after_dh_installinit:
+	dh_installinit --name=proxmox-firewall
+
+override_dh_installsystemd:
+
+execute_after_dh_lintian:
+	install -d debian/proxmox-firewall/usr/share/lintian/overrides
+	cat debian/lintian-overrides.lsbservice \
+	    >>debian/proxmox-firewall/usr/share/lintian/overrides/proxmox-firewall
+else
 override_dh_installsystemd:
 	dh_installsystemd proxmox-firewall.service
+endif
 
