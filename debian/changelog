@@ -1,3 +1,20 @@
+proxmox-firewall (1.2.4) trixie; urgency=medium
+
+  * fix #7584: update to proxmox-ve-config 0.11, which recognizes all
+    NIC models that VMs can use. A guest with a firewall configuration
+    and a previously unknown model, like e1000e, made updating the
+    firewall rules fail on its node.
+
+  * rules: move rendering the protocol, port, and ICMP type and code
+    matches into the nftables library, with no intended change to the
+    generated ruleset.
+
+  * buildsys: install the binary from the build target of the host
+    architecture, so the package can also be built for architectures
+    other than amd64, like arm64.
+
+ -- Proxmox Support Team <support@proxmox.com>  Tue, 03 Nov 2026 00:52:29 +0100
+
 proxmox-firewall (1.2.3) trixie; urgency=medium
 
   * fix #6399: update to proxmox-ve-config 0.10 to ensure firewall rules whose
